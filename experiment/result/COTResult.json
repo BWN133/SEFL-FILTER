@@ -1,0 +1,17 @@
+[
+    {
+        "Experiment Name": "Chain Of Thought Prompting"
+    },
+    {
+        "Correct Amount": 4
+    },
+    {
+        "Incorrect Samples": [
+            {
+                "question": "Josh decides to try flipping a house.  He buys a house for $80,000 and then puts in $50,000 in repairs.  This increased the value of the house by 150%.  How much profit did he make?\n",
+                "answer": "The cost of the house and repairs came out to 80,000+50,000=$<<80000+50000=130000>>130,000\nHe increased the value of the house by 80,000*1.5=<<80000*1.5=120000>>120,000\nSo the new value of the house is 120,000+80,000=$<<120000+80000=200000>>200,000\nSo he made a profit of 200,000-130,000=$<<200000-130000=70000>>70,000\n#### 70000<|endoftext|>",
+                "Incorrect Answer": "1. Step by step reasoning:\n- Josh bought the house for $80,000 and put in $50,000 in repairs, totaling $130,000.\n- The repairs increased the value of the house by 150%, which means the new value of the house is 150% of $130,000.\n- To find the new value, we calculate 150% of $130,000: $130,000 * 1.5 = $195,000.\n- To find the profit Josh made, we subtract the total cost from the new value: $195,000 - $130,000 = $65,000.\n\n2. Answer:\n#### 65000"
+            }
+        ]
+    }
+]

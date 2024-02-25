@@ -1,0 +1,17 @@
+[
+    {
+        "Experiment Name": "Base Experiment"
+    },
+    {
+        "Correct Amount": 4
+    },
+    {
+        "Incorrect Samples": [
+            {
+                "question": "Every day, Wendi feeds each of her chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables to help keep them healthy.  She gives the chickens their feed in three separate meals. In the morning, she gives her flock of chickens 15 cups of feed.  In the afternoon, she gives her chickens another 25 cups of feed.  How many cups of feed does she need to give her chickens in the final meal of the day if the size of Wendi's flock is 20 chickens?\n",
+                "answer": "If each chicken eats 3 cups of feed per day, then for 20 chickens they would need 3*20=<<3*20=60>>60 cups of feed per day.\nIf she feeds the flock 15 cups of feed in the morning, and 25 cups in the afternoon, then the final meal would require 60-15-25=<<60-15-25=20>>20 cups of chicken feed.\n#### 20<|endoftext|>",
+                "Incorrect Answer": "1. First, calculate the total amount of feed given to the chickens in the morning and afternoon:\n   Morning feed = 15 cups\n   Afternoon feed = 25 cups\n   Total feed given = 15 + 25 = 40 cups\n\n2. Next, calculate the total amount of feed given to each chicken in the morning and afternoon:\n   Total feed given to each chicken = Total feed given / number of chickens\n   Total feed given to each chicken = 40 cups / 20 chickens = 2 cups per chicken\n\n3. Since each chicken has already received 2 cups of feed in the morning and afternoon, Wendi needs to give them an additional 1 cup of feed in the final meal of the day to reach the total of 3 cups per chicken.\n\n#### 1"
+            }
+        ]
+    }
+]
