@@ -12,7 +12,8 @@ def get_summary_chain() -> LLMChain:
          You are given a math question {information}, think through it step by step and provide me 
          
          1. step by step reasoning
-         2. Answer
+         2. Provide the answer as a integer at the end with four '#' and one space character before it. For example:
+         ```It takes 2/2=<<2/2=1>>1 bolt of white fiber\nSo the total amount of fabric is 2+1=<<2+1=3>>3 bolts of fabric\n#### 3```
          \n
      """
 
