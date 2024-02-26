@@ -31,7 +31,7 @@ def get_examples(split, count):
 
 ANS_RE = re.compile(r"#### (\-?[0-9\.\,]+)")
 INVALID_ANS = "[invalid]"
-
+EQ_RE = r'\$<<([^>>]+)>>'
 
 def extract_answer(completion):
     match = ANS_RE.search(completion)
@@ -42,6 +42,9 @@ def extract_answer(completion):
     else:
         return INVALID_ANS
 
+def extract_equation(answer:str):
+    equations = re.findall(EQ_RE, answer)
+    return equations
 
 def is_correct(model_completion, gt_example):
     gt_answer = extract_answer(gt_example["answer"])
