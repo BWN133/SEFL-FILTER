@@ -2,6 +2,7 @@ import json
 import os
 import re
 import torch as th
+from config import *
 
 
 def read_jsonl(path: str, count: int):
@@ -17,21 +18,18 @@ def read_jsonl(path: str, count: int):
         # return [json.loads(line) for line in fh.readlines() if line]
 
 
-def get_examples(split, count):
-    path = os.path.join("dataset/data/", f"{split}.jsonl")
+
+def get_examples(path, count=MAXINT):
     examples = read_jsonl(path, count)
 
     for ex in examples:
         ex.update(question=ex["question"] + "\n")
         ex.update(answer=ex["answer"] + "<|endoftext|>")
-
-    print(f"{len(examples)} {split} examples")
     return examples
-
 
 ANS_RE = re.compile(r"#### (\-?[0-9\.\,]+)")
 INVALID_ANS = "[invalid]"
-EQ_RE = r'\$<<([^>>]+)>>'
+EQ_RE = r'<<([^>]+)>>'
 
 def extract_answer(completion):
     match = ANS_RE.search(completion)

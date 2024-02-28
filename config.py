@@ -1,6 +1,13 @@
-TESTINGAMOUNT = 50
+TESTINGAMOUNT = 3
 UPPERAINT = 65
+MAXINT = 9999999
+INCORRECTSAMPLEKEY = "Incorrect Samples"
+ANSWERKEY = "answer"
+QUESTIONKEY = "question"
 VERBOSE = False
 BASEEXP = "Base Experiment"
 COTEXP = "Chain Of Thought Prompting"
 FSEXP = "Few Shot Prompting"
+RESULTOGPATH = "experiment/Results/DEFAULT_METHOD/OgData/"
+GSM8KOGDATA = "Dataset/GSM8K/OgData/"
+GSM8KCATDATA = "Dataset/GSM8K/CategorizedData/"

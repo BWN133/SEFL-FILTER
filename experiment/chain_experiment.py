@@ -1,28 +1,28 @@
-from dotenv import load_dotenv
 from chain.chain import *
-from Dataset import dataset
-import os
+from util import dataset
 from langchain.chains import LLMChain
 from config import *
-import json 
-def main_run_experiments(experiment:list):
-    test_data = dataset.get_examples("test",TESTINGAMOUNT)
+from util import util
+import os
+def main_run_experiments(experiment:list, path):
+    test_data = dataset.get_examples(path,TESTINGAMOUNT)
     if(BASEEXP in experiment):
         # Base Experiment
         base_chain = get_default_chain()
         correct, model_completion, incorrectAnswer = run_experiment(base_chain, test_data)
         print_result(BASEEXP, correct, incorrectAnswer)
-        store_result(BASEEXP, correct, incorrectAnswer,"BaseResult.json")
+        
+        util.store_result(BASEEXP, correct, incorrectAnswer, RESULTOGPATH + "BaseResult.jsonl")
     if(COTEXP in experiment):
         cot_chain = get_chain_of_thought_chain()
         correct_cot, model_completion_cot, incorrectAnswer_cot = run_experiment(cot_chain, test_data)
         print_result(COTEXP, correct_cot, incorrectAnswer_cot)
-        store_result(COTEXP, correct_cot, incorrectAnswer_cot,"COTResult.json")
+        util.store_result(COTEXP, correct_cot, incorrectAnswer_cot,RESULTOGPATH + "COTResult.jsonl")
     if(FSEXP in experiment):
         fs_chain = get_few_shot_prompting()
         correct_fs, model_completion_fs, incorrectAnswer_fs = run_experiment(fs_chain, test_data)
         print_result(FSEXP, correct_fs, incorrectAnswer_fs)
-        store_result(FSEXP, correct_fs, incorrectAnswer_fs,"FSResult.json")
+        util.store_result(FSEXP, correct_fs, incorrectAnswer_fs,RESULTOGPATH + "FSResult.jsonl")
 
 
 # Param data: list[dict{"question":...,"answer": ...}]
@@ -50,19 +50,6 @@ def print_result(exp_name, correct_amount, incorrectSamples):
             print("Correct Answer: ", t[0]['answer'])
             print("Model's Prediction: ", t[1])
 
-# Param 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"], 
-def store_result(exp_name:str, correct_amount:int, incorrectSamples:list, fileName:str):
-    output = []
-    output.append({"Experiment Name": exp_name})
-    output.append({"Correct Amount" : correct_amount})
-    output.append({"Incorrect Samples":[]})
-    for t in incorrectSamples:
-        t[0]["Incorrect Answer"] = t[1]
-        output[2]["Incorrect Samples"].append(t[0])
-    path = os.path.join('experiment/result/', fileName)
-    # Writing to a file
-    with open(path, 'w') as f:
-        json.dump(output, f, indent=4)
     
 
     
