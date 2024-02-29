@@ -94,11 +94,11 @@ def get_default_aug_chain() -> LLMChain:
          You are given a math question {information}, think through it step by step and provide me 
          
          1. step by step reasoning
-         2. Provide the answer as a integer at the end with four '#' and one space character before it. Don't put unit or '%' sign in the final answer. one number only 
+         2. Check your reasoning against the question sentence by sentence
+         3. Provide the answer as a integer at the end with four '#' and one space character before it. Don't put unit or '%' sign in the final answer. one number only 
          For example:
          ```It takes 2/2=<<2/2=1>>1 bolt of white fiber\nSo the total amount of fabric is 2+1=<<2+1=3>>3 bolts of fabric\n#### 3```
          \n
-         3. Check your reasoning against the question sentence by sentence
          Here are some similar problems and answers for your reference (Could be none): 
          {relatedProblems}
 

@@ -1,6 +1,7 @@
 from chain.chain import *
 from util import dataset
 from langchain.chains import LLMChain
+from experiment.experiment_main import *
 from config import *
 from util import util
 import os
@@ -27,18 +28,18 @@ def main_run_experiments(experiment:list, path):
 
 # Param data: list[dict{"question":...,"answer": ...}]
 # Return 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"]
-def run_experiment(chain: LLMChain ,data:list):
-    model_completion = []
-    incorrectAnswer = []
-    correct = 0
-    for i in range(TESTINGAMOUNT):
-        cur_question = data[i]['question']
-        model_completion.append(chain.run(information=cur_question))
-        if dataset.is_correct(model_completion[-1], data[i]):
-            correct += 1
-        else:
-            incorrectAnswer.append((data[i], model_completion[-1]))
-    return correct, model_completion, incorrectAnswer
+# def run_experiment(chain: LLMChain ,data:list):
+#     model_completion = []
+#     incorrectAnswer = []
+#     correct = 0
+#     for i in range(TESTINGAMOUNT):
+#         cur_question = data[i]['question']
+#         model_completion.append(chain.run(information=cur_question))
+#         if dataset.is_correct(model_completion[-1], data[i]):
+#             correct += 1
+#         else:
+#             incorrectAnswer.append((data[i], model_completion[-1]))
+#     return correct, model_completion, incorrectAnswer
 
 # Param 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"]
 def print_result(exp_name, correct_amount, incorrectSamples):
