@@ -15,7 +15,7 @@ def run_experiment(chain: LLMChain ,data:list, augSamples=None):
         cur_question = data[i][QUESTIONKEY]
         if augSamples:
             curK = util.operation_categorizer(data[i][ANSWERKEY])
-            supData = augSamples[curK][0:10]
+            supData = augSamples[curK][0:10] if curK in augSamples else DEFAULTCOTPROMPT
             model_completion.append(chain.run(information=cur_question, relatedProblems=supData))
         else:
             model_completion.append(chain.run(information=cur_question))

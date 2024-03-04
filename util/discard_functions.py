@@ -48,3 +48,20 @@ def exact_categorizer(answer: str):
         result.append(equation_to_variables(e, bank))
         
     return '###'.join(result)
+
+
+# Load in some dataset and then store them in category
+# result = true: load from result folder
+# result = false: load from dataset
+def categorize_dataset_exact(path):
+    categorized_data = {}
+    target_samples = dataset.get_examples(path)
+
+    for sample in target_samples:
+        if sample[ANSWERKEY] is None:
+            continue
+        key = exact_categorizer(sample[ANSWERKEY])
+        if key not in categorized_data:
+            categorized_data[key] = []
+        categorized_data[key].append(sample)
+    return categorized_data
