@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
-from experiment.chain_experiment import main_run_experiments
+from experiment.chain_experiment import *
 from chain import chain
 import os
 from config import *
@@ -35,22 +35,17 @@ def count_different(path1, path2):
     data = dataset.read_jsonl(path1,MAXINT)
     bank = set()
     for d in data:
-        bank.add(d[QUESTIONKEY])
+        bank.add(d[QUESTIONKEY]) if QUESTIONKEY in d else None
     data2 = dataset.read_jsonl(path2,MAXINT)
     count = 0
     for d in data2:
-        if d in bank:
+        if QUESTIONKEY in d and d[QUESTIONKEY] in bank:
             count += 1
     return count
 
 if __name__ == '__main__':
-    # augmentExperimentOnDataset()
-    # storeGSM8KData_EXACT("train", "train_exactc")
-    # count_single(GSM8KCATDATA + "train_exactc.jsonl")
-    # count_single(GSM8KCATDATA + "train_opc.jsonl")
-    count_different("Results\AUGMENTED_METHOD\OgData\BaseModel_ChainOfThought_exp1_500.jsonl", "Results\AUGMENTED_METHOD\OgData\BaseModel_test_aug_exp1_500.jsonl")
-
+    # ehanceData_run_experiments(RESULTAUGOGPATH +"BaseModel_noAug.jsonl")
+    main_run_experiments([COTEXP], GSM8KOGDATA+"train.jsonl", data_length=1500)
     
-
     
     

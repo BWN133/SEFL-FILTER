@@ -4,8 +4,9 @@ from langchain_openai import ChatOpenAI
 
 # from output_parsers import summary_parser, ice_breaker_parser, topics_of_interest_parser
 
-llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-# llm_creative = ChatOpenAI(temperature=1, model_name="gpt-3.5-turbo")
+# llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+# llm = ChatOpenAI(temperature=0, model_name="gpt-4")
+llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
 
 def get_default_chain() -> LLMChain:
     summary_template = """
@@ -108,6 +109,47 @@ def get_default_aug_chain() -> LLMChain:
 
     summary_prompt_template = PromptTemplate(
         input_variables=["information","relatedProblems"],
+        template=summary_template
+    )
+
+    return LLMChain(llm=llm, prompt=summary_prompt_template)
+
+
+def get_data_enhancement_chain():
+    summary_template = """
+         You are given a math question, with detailed answer.
+         The answer will contains multiple equations for different steps
+         Now do the following:
+         1. Read question and understand the solution
+         2. Understand how many variables there are in equations.
+         3. Extract all equations in and put them in a single <<>> seperate by comma ','
+         4. Replace the numbers in the euqations with different variable name starting with Captial A. The final answer should be represent with variable Z
+         5. Create a mapping for from variable name to value.
+         6. Re read your transfered equation. There must be no numbers in it. If yes, replace those numbers
+         7. with the variable equations you conclude, map the number back and check whether the answer is the same. If not, correct your mistake
+         8. Re read again your transfered equation. There must be no numbers in it. If yes, replace those numbers
+         9. Return only the varible version result encapsulate with << >> 
+    
+         For example:
+        "question": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\n", 
+        "answer": "Natalia sold 48/2 = <<48/2=24>>24 clips in May.\nNatalia sold 48+24 = <<48+24=72>>72 clips altogether in April and May.\n#### 72<|endoftext|>"
+         You will return:
+         <<A/B=C, A+C=D>>
+         \n
+
+         Remeber:
+        1. Consider those numbers that are representing some constant factors as variables as well.
+        2. The final answer should be represent by letter Z
+        3. Represent fractions like 3/4 as a single variable
+        Here are some examples:
+        {relatedProblems}
+         Here is the actual question and answer:
+         {question}
+         {answer}
+     """
+
+    summary_prompt_template = PromptTemplate(
+        input_variables=["question", "answer", "relatedProblems"],
         template=summary_template
     )
 
