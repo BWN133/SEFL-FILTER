@@ -1,7 +1,9 @@
 TESTINGAMOUNT = 500
 UPPERAINT = 65
+SOLUTIONCANDIDATE = 1
 MAXINT = 9999999
 INCORRECTSAMPLEKEY = "Incorrect Samples"
+INCORRECTANSWERKEY = "Incorrect Answer"
 ANSWERKEY = "answer"
 QUESTIONKEY = "question"
 VERBOSE = False
@@ -48,3 +50,5 @@ DEFAULTAUGDATAPROMPTARRAY = [
 {"input": '''"question": "Grandma Jones baked 5 apple pies for the fireman's luncheon.  She cut each pie into 8 pieces and set the five pies out on the buffet table for the guests to serve themselves.  At the end of the evening, after the guests had taken and eaten their pieces of pie, there were 14 pieces of pie remaining.  How many pieces were taken by the guests?", "answer": "To start the evening, there were 5 pies, each with 8 pieces, which is 5*8=<<5*8=40>>40 pieces of pie.\nIf only 14 remained, then 40-14=<<40-14=26>>26 pieces of pie had been taken by guests.\n#### 26"''', "output": "<<A*B=C, C-D=Z>>"},
 {"input":'''"question": "According to its nutritional info, a bag of chips has 250 calories per serving. If a 300g bag has 5 servings, how many grams can you eat if your daily calorie target is 2000 and you have already consumed 1800 calories?", "answer": "If the total calorie target is 2000 and I have consumed 1800 calories then I have 2000-1800 = <<2000-1800=200>>200 calories left to eat\nIf each serving of chips has 250 calories and I only have 200 calories left to eat, then I can only eat 200/250 of a serving = 4/5 of a serving\nWe also know that a 300g bag of chips has 5 servings, hence each serving has 300g/5 = <<300/5=60>>60 grams\nIf I can only eat 4/5 of a serving, then I can eat only 60g * 4/5 = 240g/5 = 48 grams\n#### 48"''',"output":"<<A-B=C,C/D=E, F/G=H, H*E=Z>>"},
 ]
+
+a = "A + B = C, c_1 * A = E, E + B = F ,F + C = G, G/c_2 = Z"

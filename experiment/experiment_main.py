@@ -51,4 +51,14 @@ def data_enhencement_experiment(chain: LLMChain, data: list):
         model_output.append(chain.run(question=cur_question,answer=cur_answer, relatedProblems=DEFAULTAUGDATAPROMPTARRAY))
     return None, model_output, None
     
+def mistakes_review_experiment(chain: LLMChain, data:list):
+    model_output = []
+    for i in range(len(data)):
+        if QUESTIONKEY not in data[i]:
+            continue
+        cur_question = data[i][QUESTIONKEY]
+        cur_answer = data[i][ANSWERKEY]
+        cur_incorrect_answer = data[i][INCORRECTANSWERKEY]
+        model_output.append(chain.run(question=cur_question,answer=cur_answer, incorrect_answer=cur_incorrect_answer))
+    return None, model_output, None
     

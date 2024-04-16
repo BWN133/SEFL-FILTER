@@ -30,6 +30,12 @@ def ehanceData_run_experiments(path):
     correct, model_completion, incorrectAnswer = data_enhencement_experiment(chain, test_data)
     print("Model's answer",model_completion)
 
+def run_mistakes_review_experiment(path, data_length=MAXINT):
+    test_data = dataset.read_jsonl(path, data_length)
+    chain = get_review_mistake_chain()
+    correct, model_completion, incorrectAnswer = mistakes_review_experiment(chain, test_data)
+    print("Model's answer",model_completion)
+
 
 # Param 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"]
 def print_result(exp_name, correct_amount, incorrectSamples, totalAmount=TESTINGAMOUNT):

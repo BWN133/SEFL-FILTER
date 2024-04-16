@@ -6,6 +6,7 @@ import os
 from config import *
 from experiment.prompt_improved_experiment import *
 from util import util, dataset, discard_functions
+from Pipe import pipe
 def storeGSM8KData(split,filename):
     path = os.path.join(GSM8KOGDATA, f"{split}.jsonl")
     output_path = os.path.join(GSM8KCATDATA, f"{filename}.jsonl")
@@ -45,7 +46,9 @@ def count_different(path1, path2):
 
 if __name__ == '__main__':
     # ehanceData_run_experiments(RESULTAUGOGPATH +"BaseModel_noAug.jsonl")
-    main_run_experiments([COTEXP], GSM8KOGDATA+"train.jsonl", data_length=1500)
+    # main_run_experiments([COTEXP], GSM8KOGDATA+"train.jsonl", data_length=1500)
+    pipe.main_pipe("Every day, Wendi feeds each of her chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables to help keep them healthy.  She gives the chickens their feed in three separate meals. In the morning, she gives her flock of chickens 15 cups of feed.  In the afternoon, she gives her chickens another 25 cups of feed.  How many cups of feed does she need to give her chickens in the final meal of the day if the size of Wendi's flock is 20 chickens?")
+    
     
     
     

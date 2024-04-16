@@ -66,3 +66,4 @@ def categorize_dataset(path):
             categorized_data[key] = []
         categorized_data[key].append(sample)
     return categorized_data
+
