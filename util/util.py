@@ -17,6 +17,9 @@ def store_result(exp_name:str, correct_amount:int, incorrectSamples:list, path:s
             json_str = json.dumps(item)  # Serialize the object to a JSON formatted str
             file.write(json_str + '\n')  # Write the JSON string followed by a newline character
 
+def store_mathoutput(path:str, math_outputs:list, question:str, solution:str):
+    pass 
+
 # Param 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"], 
 def store_category(path, data):
     # output = []
