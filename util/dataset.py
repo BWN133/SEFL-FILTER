@@ -7,6 +7,7 @@ from config import *
 import json
 import random
 
+
 def read_random_jsonl_lines(path: str, count: int):
     with open(path) as fh:
         lines = fh.readlines()
