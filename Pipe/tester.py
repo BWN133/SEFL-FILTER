@@ -9,3 +9,5 @@ def test_recheck_chain():
     question = "Teresa is 59 and her husband Morio is 71 years old. Their daughter, Michiko was born when Morio was 38.  How old was Teresa when she gave birth to Michiko?"
     print(pipe_chain.recheck_chain(question, potential_answer))
     
+def test_combine_chain():
+    pass

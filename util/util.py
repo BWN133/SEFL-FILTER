@@ -17,8 +17,17 @@ def store_result(exp_name:str, correct_amount:int, incorrectSamples:list, path:s
             json_str = json.dumps(item)  # Serialize the object to a JSON formatted str
             file.write(json_str + '\n')  # Write the JSON string followed by a newline character
 
-def store_mathoutput(path:str, math_outputs:list, question:str, solution:str):
-    pass 
+
+# Param: path: actual place to store at, question_mathOutput: [dict{"question":math question, "outputs":[Math_Outputs], "solution":actual sotluion, "step":what step did create this result}]
+def direct_storage(path:str, qustion_mathOutput:list):
+    output = []
+    for q in qustion_mathOutput:
+        output.append(q)
+    with open(path, 'w') as file:
+        for item in output:
+            json_str = json.dumps(item)  # Serialize the object to a JSON formatted str
+            file.write(json_str + '\n')  # Write the JSON string followed by a newline character
+    
 
 # Param 'Experiment Name', correct_amount, [model_output], [{"question": ... , "answer": ...}, "model_answer"], 
 def store_category(path, data):
@@ -28,6 +37,7 @@ def store_category(path, data):
     with open(path, 'w') as file:
         json_str = json.dumps(data)  # Serialize the object to a JSON formatted str
         file.write(json_str + '\n')  # Write the JSON string followed by a newline character
+        
 
 def load_Categorized_dict(path):
     with open(path, 'r') as file:

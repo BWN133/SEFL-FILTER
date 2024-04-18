@@ -1,11 +1,40 @@
 from langchain_openai import ChatOpenAI
 from config import *
+import re
+import json
 from langchain.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from Schema import schema
+from langchain_core.runnables import Runnable, RunnableConfig
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+from langchain_core.runnables import RunnablePassthrough
 
+
+Math_Output_parser = PydanticOutputParser(pydantic_object=schema.Math_Output)
+Compare_Output_parser = PydanticOutputParser(pydantic_object=schema.Compare_Output)
 llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
+def error_resistance_Math_Output_parser(msg: AIMessage, config: RunnableConfig):
+    try:
+        return Math_Output_parser.invoke(msg, config=config)
+    except Exception as e:
+        pattern = r"\{[^{}]*\}"
+
+        # Find all matches
+        matches = re.findall(pattern, msg.content)
+        r = json.loads(matches[0])
+        return schema.Math_Output(answer=r["answer"], result=r["result"])
+    
+def error_resistance_Compare_Output_parser(msg: AIMessage,config: RunnableConfig):
+    try:
+        return Compare_Output_parser.invoke(msg, config=config)
+    except Exception as e:
+        pattern = r"\{[^{}]*\}"
+
+        # Find all matches
+        matches = re.findall(pattern, msg.content)
+        r = json.loads(matches[0])
+        return schema.Compare_Output(reasoning=r["reasoning"],choice=r["choice"])
 
 def build_recheck_example(question:str, potential_solution:str, final_answer:str, final_result:str):
     result =  "For the content below, all content inside **** **** are what system provided you. The AI output content are those inside #### #### not including ####"
@@ -14,13 +43,12 @@ def build_recheck_example(question:str, potential_solution:str, final_answer:str
     d = {"answer":final_answer, "result":final_result}
     return result + str(d) + "####"
 def build_pick_correct_example(question:str, s1:str,s2:str, reasoning:str, choice:str):
-    result = "For the content below, all content inside **** **** are what system provided you. The AI output content are encapsulated in ####"
+    result = "For the content below, all content inside **** **** are what system provided you. The AI output content are everything not encapsulated in ****"
     result += "**** question: " + question + "\n\n Solution 1: " + s1 + " \n Solution 2: " + s2 + "****"
-    result += "####" + """{"reasoning":""" + reasoning + """, "choice":""" + choice + """}####""" 
+    result += """{"reasoning":""" + reasoning + """, "choice":""" + choice + """}""" 
     return result
 
 def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, potential_solution2:schema.Math_Output):
-    parser = PydanticOutputParser(pydantic_object=schema.Compare_Output)
     prompt = ChatPromptTemplate.from_messages([
         "You are an expert in finding the correct solution from two purposed solution"
         "You will be provide with a math word question encapsulated with *****"
@@ -40,7 +68,7 @@ def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, po
         "*****{question}*****"
         "^^^^^{potential_solution_description1}^^^^^"
         "&&&&&{potential_solution_description2}&&&&&"
-    ]).partial(format_instructions=parser.get_format_instructions())
+    ]).partial(format_instructions=Compare_Output_parser.get_format_instructions())
     
     formatExample = """{"reasoning":"The second solution is correct because the first solution picked wrong solution","choice":"2"}"""
     examples = build_pick_correct_example("Yella's computer usage last week was 91 hours. If she plans to use the computer 8 hours a day for this week, how much less \u200bis her computer usage for this week?",
@@ -49,13 +77,12 @@ def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, po
                                "The first solution is correct because there is a calculation error in the second solution",
                                "1")
     correct_solution_picker = (
-        prompt | llm | parser
+        prompt | llm | error_resistance_Compare_Output_parser
     )
-    return correct_solution_picker.invoke({"question":question, "formatExample":formatExample,"examples":examples,"potential_solution_description1": potential_solution1,"potential_solution_description2": potential_solution2})
+    return correct_solution_picker.invoke({"question":question, "formatExample":formatExample,"examples":examples,"potential_solution_description1": potential_solution1.answer,"potential_solution_description2": potential_solution2.answer})
     
 
 def recheck_chain(question:str, potentialSolution: schema.Math_Output):
-    parser = PydanticOutputParser(pydantic_object=schema.Math_Output)
     prompt = ChatPromptTemplate.from_messages([
         "You are an expert in validating and correcting math solutions."
         "You will be provided with a math word question encapsulated with *****"
@@ -73,7 +100,7 @@ def recheck_chain(question:str, potentialSolution: schema.Math_Output):
         "-----{examples}-----"
         "*****{question}*****"
         "^^^^^{potential_solution_description}^^^^^"
-    ]).partial(format_instructions=parser.get_format_instructions())
+    ]).partial(format_instructions=Math_Output_parser.get_format_instructions())
     example = build_recheck_example(
         "Jose threatened to withhold 20 percent of Amanda's pay if she does not finish her sales report by midnight. If Amanda makes $50.00 an hour and works for 10 hours a day, how much money will she receive if she does not finish the sales report by midnight?",
         "If she works for 10 hours a day she will get 50 * 10 = 500$. However, if she didn't make the deadline, she will get 20% withhold which end up with 500 * 0.2 = 100 USD. She will only get 100 USD if she didn't meet the deadline.",
@@ -83,14 +110,12 @@ def recheck_chain(question:str, potentialSolution: schema.Math_Output):
     formatExample = """{"answer": "Yella can use the computer 8 x 7 = 56 hours for this week. Therefore, Yella's computer usage for this week is 91 - 56 = 35 hours less than her computer usage last week.",  "result": "35"}"""
     examples = str([example])
     enhance_checker = (
-        prompt | llm | parser
+        prompt | llm | error_resistance_Math_Output_parser
     )
     return enhance_checker.invoke({"question":question, "examples":examples,"potential_solution_description": potentialSolution.answer,"formatExample":formatExample})
 
 
 def question_answering_chain(question, examples):
-    # print("!!!!!!!!!!!!!!!!!!Question is right here" + question)
-    parser = PydanticOutputParser(pydantic_object=schema.Math_Output)
     prompt = ChatPromptTemplate.from_messages([
         "You are an expert math solver. Your job is to firstly read the question and solve it step by step"
         "You will be provided with a math word question encapsulated with *****"
@@ -105,12 +130,11 @@ def question_answering_chain(question, examples):
         "-----{examples}-----"
         "Here are the question you need to solve: *****{question}*****"
     ]
-    ).partial(format_instructions=parser.get_format_instructions())
+    ).partial(format_instructions=Math_Output_parser.get_format_instructions())
 
     formatExample = """{"answer": "Yella can use the computer 8 x 7 = 56 hours for this week. Therefore, Yella's computer usage for this week is 91 - 56 = 35 hours less than her computer usage last week.",  "result": "35"}"""
-    print(formatExample)
     answer_proposer = (
-        prompt | llm | parser
+        prompt | llm | error_resistance_Math_Output_parser
     )
     
     return answer_proposer.invoke({"question": question, "examples":examples,"formatExample": formatExample})
