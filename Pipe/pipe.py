@@ -58,7 +58,13 @@ def main_pipe(question):
             pbar.update(1)
 
     if VERBOSE: print("Candidate solution generated, waiting agents to find the opimtal solution")
-    final_answer = pick_correct_response(question, solution_candidates)
+    finished_pick = False
+    while not finished_pick:
+        try:
+            final_answer = pick_correct_response(question, solution_candidates)
+            finished_pick = True
+        except:
+            print("Parser error try again")
     if VERBOSE: print("Finish picking the best answer and the answer is " + final_answer.result +  "\n*********************************************************")
     solution_candidates.append({"question": question, "solution":final_answer.answer,ANSWERKEY: final_answer.result ,"Step": "pickCorrect"})
     util.direct_storage("Results\STUDIABILITY_PIPE_METHOD\Studiability_Last_Reasoning.jsonl",solution_candidates)

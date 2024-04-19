@@ -25,8 +25,9 @@ def studiability_result(start:int, end:int):
                 amount_ran = i
                 break
             if std_result[-1][ANSWERKEY] != answer:
-                output.append({QUESTIONKEY:data[QUESTIONKEY],ANSWERKEY:data[ANSWERKEY], INCORRECTANSWERKEY:std_result})
-                print(output)
+                curWrong = {QUESTIONKEY:data[QUESTIONKEY],ANSWERKEY:data[ANSWERKEY], INCORRECTANSWERKEY:std_result}
+                output.append(curWrong)
+                print(curWrong)
             else:
                 correct += 1
             pbar.update(1)

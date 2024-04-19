@@ -35,8 +35,9 @@ def store_category(path, data):
     # for k in data:
     #     output.append({k:data[k]})
     with open(path, 'w') as file:
-        json_str = json.dumps(data)  # Serialize the object to a JSON formatted str
-        file.write(json_str + '\n')  # Write the JSON string followed by a newline character
+        for item in data:
+            json_str = json.dumps(item)  # Serialize the object to a JSON formatted str
+            file.write(json_str + '\n')  # Write the JSON string followed by a newline character
         
 
 def load_Categorized_dict(path):

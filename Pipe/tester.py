@@ -10,7 +10,9 @@ def test_system():
 def harder_question_system_test():
     question = "Sansa is a famous artist, she can draw a portrait and sell it according to its size. She sells an 8-inch portrait for $5, and a 16-inch portrait for twice the price of the 8-inch portrait. If she sells three 8-inch portraits and five 16-inch portraits per day, how many does she earns every 3 days?"
     print(pipe.main_pipe(question=question))
-
+def test_system3():
+    quesiton = "The profit from a business transaction is shared among 2 business partners, Mike and Johnson in the ratio 2:5 respectively. If Johnson got $2500, how much will Mike have after spending some of his share on a shirt that costs $200?"
+    print(pipe.main_pipe(question=quesiton))
 def test_recheck_chain():
     potential_answer = schema.Math_Output(answer="The difference in age between Teresa and Morio is 71 - 59 = 12 years.\nWhen their daughter is born, Teresa is 38 - 12 =26 years old.",
                            result="26")
