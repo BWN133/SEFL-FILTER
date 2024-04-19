@@ -13,28 +13,55 @@ from langchain_core.runnables import RunnablePassthrough
 
 Math_Output_parser = PydanticOutputParser(pydantic_object=schema.Math_Output)
 Compare_Output_parser = PydanticOutputParser(pydantic_object=schema.Compare_Output)
-llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
+llm = ChatOpenAI(temperature=1, model_name="gpt-3.5-turbo")
+
+    
+
 def error_resistance_Math_Output_parser(msg: AIMessage, config: RunnableConfig):
     try:
         return Math_Output_parser.invoke(msg, config=config)
     except Exception as e:
-        pattern = r"\{[^{}]*\}"
+        try:
+            pattern = r"\{[^{}]*\}"
+            # Find all matches
+            matches = re.findall(pattern, msg.content)
+            r = json.loads(matches[0])
+            return_r =  schema.Math_Output(answer=r["answer"], result=r["result"])
+            return return_r
+        except:
+            raise e
+        
 
-        # Find all matches
-        matches = re.findall(pattern, msg.content)
-        r = json.loads(matches[0])
-        return schema.Math_Output(answer=r["answer"], result=r["result"])
-    
+
 def error_resistance_Compare_Output_parser(msg: AIMessage,config: RunnableConfig):
     try:
         return Compare_Output_parser.invoke(msg, config=config)
     except Exception as e:
-        pattern = r"\{[^{}]*\}"
+        try:
+            pattern = r"\{[^{}]*\}"
 
-        # Find all matches
-        matches = re.findall(pattern, msg.content)
-        r = json.loads(matches[0])
-        return schema.Compare_Output(reasoning=r["reasoning"],choice=r["choice"])
+            # Find all matches
+            matches = re.findall(pattern, msg.content)
+            r = json.loads(matches[0])
+            return_r = schema.Compare_Output(reasoning=r["reasoning"],choice=r["choice"])
+            return return_r
+        except:
+            raise e
+
+def exception_to_messages(inputs: dict) -> dict:
+    if VERBOSE: print("\nReach exception_to_messages +++++++++++++++++++++++++")
+    exception = str(inputs['exception'])
+    if VERBOSE: print("Here are the exception object *****&&&&&&&&&&&&&&&*******" + exception + "*****&&&&&&&&&&&&&&&*******")
+    # Add historical messages to the original input, so the model knows that it made a mistake with the last tool call.
+    messages = ChatPromptTemplate.from_messages ([
+        "The last call raised an exception:",
+        exception,
+        "Do not repeat mistakes and try again."
+    ])
+    inputs["last_output"] = messages
+    return inputs
+
+
 
 def build_recheck_example(question:str, potential_solution:str, final_answer:str, final_result:str):
     result =  "For the content below, all content inside **** **** are what system provided you. The AI output content are those inside #### #### not including ####"
@@ -51,17 +78,17 @@ def build_pick_correct_example(question:str, s1:str,s2:str, reasoning:str, choic
 def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, potential_solution2:schema.Math_Output):
     prompt = ChatPromptTemplate.from_messages([
         "You are an expert in finding the correct solution from two purposed solution"
-        "You will be provide with a math word question encapsulated with *****"
+        "You will be provided with a format example that you need to learn the output format encapsulated in ~~~~~"
+        "Few shot examples encapsulated in -----"
+        "A math word question encapsulated with *****"
         "Solution 1 that may be incorrect encapsulated in ^^^^^"
         "Solution 2 that may be incorrect encapsulated in &&&&&"
-        "A format example that you need to learn the output format encapsulated in ~~~~~"
-        "Few shot examples encapsulated in -----"
         "Your job is to conduct following steps:"
         "1. Read the question and provided solutions"
         "2. Explain your reasoning and pick one solution from provided solution"
         "You will output a dictionary with following fields:"
-        "reasoning: The step by step description of why you pick the answer"
-        "choice: 1 or 2 based on your choices"
+        "1.reasoning: The step by step description of why you pick the answer"
+        "2.choice: 1 or 2 based on your choices"
         "Remenber to use double quote \" for key values and result"
         "~~~~~{formatExample}~~~~~"
         "-----{examples}-----"
@@ -79,7 +106,8 @@ def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, po
     correct_solution_picker = (
         prompt | llm | error_resistance_Compare_Output_parser
     )
-    return correct_solution_picker.invoke({"question":question, "formatExample":formatExample,"examples":examples,"potential_solution_description1": potential_solution1.answer,"potential_solution_description2": potential_solution2.answer})
+    self_correct_enhance_chain = correct_solution_picker.with_fallbacks([exception_to_messages | correct_solution_picker], exception_key="exception")
+    return self_correct_enhance_chain.invoke({"question":question, "formatExample":formatExample,"examples":examples,"potential_solution_description1": potential_solution1.answer,"potential_solution_description2": potential_solution2.answer})
     
 
 def recheck_chain(question:str, potentialSolution: schema.Math_Output):
@@ -112,7 +140,8 @@ def recheck_chain(question:str, potentialSolution: schema.Math_Output):
     enhance_checker = (
         prompt | llm | error_resistance_Math_Output_parser
     )
-    return enhance_checker.invoke({"question":question, "examples":examples,"potential_solution_description": potentialSolution.answer,"formatExample":formatExample})
+    self_correct_enhance_chain = enhance_checker.with_fallbacks([exception_to_messages | enhance_checker], exception_key="exception")
+    return self_correct_enhance_chain.invoke({"question":question, "examples":examples,"potential_solution_description": potentialSolution.answer,"formatExample":formatExample})
 
 
 def question_answering_chain(question, examples):
@@ -137,4 +166,5 @@ def question_answering_chain(question, examples):
         prompt | llm | error_resistance_Math_Output_parser
     )
     
-    return answer_proposer.invoke({"question": question, "examples":examples,"formatExample": formatExample})
+    self_correct_enhance_chain = answer_proposer.with_fallbacks([exception_to_messages | answer_proposer], exception_key="exception")
+    return self_correct_enhance_chain.invoke({"question": question, "examples":examples,"formatExample": formatExample})
