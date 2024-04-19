@@ -1,13 +1,14 @@
 from dotenv import load_dotenv
 load_dotenv()
-from experiment.chain_experiment import *
+from experiment.Midterm_Experiments.chain_experiment import *
 from chain import chain
 import os
 from config import *
-from experiment.prompt_improved_experiment import *
+from experiment.Midterm_Experiments.prompt_improved_experiment import *
 from util import util, dataset, discard_functions
 from Pipe import pipe
 from Pipe import tester
+from experiment.Final_Experiments import experiment
 def storeGSM8KData(split,filename):
     path = os.path.join(GSM8KOGDATA, f"{split}.jsonl")
     output_path = os.path.join(GSM8KCATDATA, f"{filename}.jsonl")
@@ -46,11 +47,6 @@ def count_different(path1, path2):
     return count
 
 if __name__ == '__main__':
-    # ehanceData_run_experiments(RESULTAUGOGPATH +"BaseModel_noAug.jsonl")
-    # main_run_experiments([COTEXP], GSM8KOGDATA+"train.jsonl", data_length=1500)
-    question = "Two trains leave San Rafael at the same time. They begin traveling westward, both traveling for 80 miles. The next day, they travel northwards, covering 150 miles. What's the distance covered by each train in the two days?\n"
-    pipe.main_pipe(question=question)
-    # tester.test_recheck_chain()
-    
+    experiment.studiability_result(1)
     
     

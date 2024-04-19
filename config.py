@@ -6,6 +6,7 @@ INCORRECTSAMPLEKEY = "Incorrect Samples"
 INCORRECTANSWERKEY = "Incorrect Answer"
 ANSWERKEY = "answer"
 QUESTIONKEY = "question"
+SOLUTIONKEY = "solution"
 VERBOSE = False
 BASEEXP = "Base Experiment"
 COTEXP = "Chain Of Thought Prompting"

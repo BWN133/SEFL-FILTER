@@ -1,7 +1,7 @@
 from chain.chain import *
 from util import dataset
 from langchain.chains import LLMChain
-from experiment.experiment_main import *
+from experiment.Midterm_Experiments.experiment_main import *
 from config import *
 from util import util
 import os

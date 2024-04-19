@@ -2,8 +2,8 @@ from config import *
 import os
 from util import dataset, util
 from chain.chain import *
-from experiment.experiment_main import *
-from experiment.chain_experiment import *
+from experiment.Midterm_Experiments.experiment_main import *
+from experiment.Midterm_Experiments.chain_experiment import *
 def augmentPromptExperiment():
     # storeGSM8KData("train", "train_opc")
     path = os.path.join(GSM8KCATDATA,"train_opc.jsonl")
