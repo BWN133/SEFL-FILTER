@@ -15,8 +15,8 @@ def random_prompting_enhancement_mathsolver(question, storage:list) -> schema.Ma
 def pick_correct_response(question,solution_candidates):
     current_correct:schema.Math_Output = None
     for c in solution_candidates:
-        if c["Step"] == "First_Solve":
-            continue
+        # if c["Step"] == "First_Solve":
+        #     continue
         if not current_correct:
             current_correct = schema.Math_Output(answer=c["solution"],result=c["result"])
         elif(current_correct.result != c["result"]):
@@ -35,7 +35,8 @@ def main_pipe(question):
         
     final_answer = pick_correct_response(question, solution_candidates)
     solution_candidates.append({"question": question, "solution":final_answer.answer,"result": final_answer.result ,"Step": "pickCorrect"})
-    util.direct_storage("Results\STUDIABILITY_PIPE_METHOD\FirstTimeSolve.jsonl",solution_candidates)
+    util.direct_storage("Results\STUDIABILITY_PIPE_METHOD\Studiability_Last_Reasoning.jsonl",solution_candidates)
+    return solution_candidates
     
     
     

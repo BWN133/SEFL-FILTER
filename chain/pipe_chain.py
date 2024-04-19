@@ -84,14 +84,14 @@ def pick_correct_chain(question: str, potential_solution1:schema.Math_Output, po
 
 def recheck_chain(question:str, potentialSolution: schema.Math_Output):
     prompt = ChatPromptTemplate.from_messages([
-        "You are an expert in validating and correcting math solutions."
+        "You are an expert in correcting math solutions."
         "You will be provided with a math word question encapsulated with *****"
-        "A solution that may be incorrect encapsulated in ^^^^^"
+        "A solution that is definetly incorrect encapsulated in ^^^^^"
         "A format example that you need to learn the output format encapsulated in ~~~~~"
         "Few shot examples encapsulated in -----"
         "Your job is to conduct following steps:"
-        "1. Recheck the quantitities mentioned in the problem description and exam the answer"
-        "2. Redo each step of the question and produce a result"
+        "1. Recheck the quantitities mentioned in the problem description and exam the wrong answer"
+        "2. Redo the problem"
         "You will output a dictionary with following fields:"
         "answer: The step by step description of how to solve the question"
         "result: Single number only result"

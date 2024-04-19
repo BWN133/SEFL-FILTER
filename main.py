@@ -48,7 +48,8 @@ def count_different(path1, path2):
 if __name__ == '__main__':
     # ehanceData_run_experiments(RESULTAUGOGPATH +"BaseModel_noAug.jsonl")
     # main_run_experiments([COTEXP], GSM8KOGDATA+"train.jsonl", data_length=1500)
-    pipe.main_pipe("Every day, Wendi feeds each of her chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables to help keep them healthy.  She gives the chickens their feed in three separate meals. In the morning, she gives her flock of chickens 15 cups of feed.  In the afternoon, she gives her chickens another 25 cups of feed.  How many cups of feed does she need to give her chickens in the final meal of the day if the size of Wendi's flock is 20 chickens?")
+    question = "Two trains leave San Rafael at the same time. They begin traveling westward, both traveling for 80 miles. The next day, they travel northwards, covering 150 miles. What's the distance covered by each train in the two days?\n"
+    pipe.main_pipe(question=question)
     # tester.test_recheck_chain()
     
     
