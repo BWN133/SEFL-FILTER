@@ -1,1 +1,0 @@
-A + B = C, c_1 * A = E, E + B = F ,F + C = G, G/c_2 = Z

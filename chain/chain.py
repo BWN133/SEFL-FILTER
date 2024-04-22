@@ -5,7 +5,7 @@ from langchain_openai import ChatOpenAI
 # from output_parsers import summary_parser, ice_breaker_parser, topics_of_interest_parser
 
 # llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-# llm = ChatOpenAI(temperature=0, model_name="gpt-4")
+# llm = ChatOpenAI(temperature=0.7, model_name="gpt-4")
 llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
 
 def get_default_chain() -> LLMChain:

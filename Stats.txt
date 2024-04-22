@@ -1,0 +1,10 @@
+Repick happened: 34 Times
+GPT3.5 turbo 100 question price: 0.18 USD
+
+
+Repick happend: 6 Times
+start running GPT4 40
+Price 1.81 time 3:45
+8.66 $ after 40 question and 4:24 take more than half an hour to run
+Price $17.125 -> 100 Question -> 95.14 times more expensive than GPT-3.5-turbo
+

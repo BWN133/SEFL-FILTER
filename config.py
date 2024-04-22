@@ -17,7 +17,6 @@ RESULTOGPATH = "Results/DEFAULT_METHOD/OgData/"
 RESULTAUGOGPATH = "Results/AUGMENTED_METHOD/OgData/"
 GSM8KOGDATA = "Dataset/GSM8K/OgData/"
 GSM8KCATDATA = "Dataset/GSM8K/CategorizedData/"
-
 DEFAULTCOTPROMPT = """
          "question": "At 30, Anika is 4/3 the age of Maddie. What would be their average age in 15 years?", "answer": "#### 50"
          \n

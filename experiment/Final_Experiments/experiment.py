@@ -40,4 +40,3 @@ def studiability_result(start:int, end:int):
     util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result"+str(start) + "_" + str(end) + ".jsonl", output)
     util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total"+str(start) + "_" + str(end) + ".jsonl", total_output)
     
-    

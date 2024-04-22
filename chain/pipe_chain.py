@@ -14,6 +14,7 @@ from langchain_core.runnables import RunnablePassthrough
 Math_Output_parser = PydanticOutputParser(pydantic_object=schema.Math_Output)
 Compare_Output_parser = PydanticOutputParser(pydantic_object=schema.Compare_Output)
 llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
+# llm = ChatOpenAI(temperature=0.7, model_name="gpt-4")
 
     
 
