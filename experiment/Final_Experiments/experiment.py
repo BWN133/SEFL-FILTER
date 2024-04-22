@@ -12,6 +12,7 @@ from tqdm import tqdm
 def studiability_result(start:int, end:int):
     test_data = dataset.get_examples(GSM8KOGDATA + "test.jsonl",MAXINT)[start-1: end]
     output = []
+    total_output = []
     output.append({"correct":0})
     correct = 0
     amount_ran = 0
@@ -24,17 +25,19 @@ def studiability_result(start:int, end:int):
                 print("execution error at" + str(i) + "data")
                 amount_ran = i
                 break
+
             if std_result[-1][ANSWERKEY] != answer:
                 curWrong = {QUESTIONKEY:data[QUESTIONKEY],ANSWERKEY:data[ANSWERKEY], INCORRECTANSWERKEY:std_result}
                 output.append(curWrong)
                 print(curWrong)
             else:
                 correct += 1
+            total_output.append({QUESTIONKEY:data[QUESTIONKEY],ANSWERKEY:data[ANSWERKEY], "System_Answer":std_result})
             pbar.update(1)
             amount_ran += 1
     output[0]["correct"] = correct
     output.append({"Amount Ran": amount_ran})
     util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result"+str(start) + "_" + str(end) + ".jsonl", output)
-    
+    util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total"+str(start) + "_" + str(end) + ".jsonl", total_output)
     
     

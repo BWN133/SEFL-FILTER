@@ -47,8 +47,10 @@ def count_different(path1, path2):
     return count
 
 if __name__ == '__main__':
-    experiment.studiability_result(1,10)
+    experiment.studiability_result(51,60)
 
     #tester.test_system3()
+    # question = ""
+    # pipe.main_pipe("")
     
     
