@@ -47,7 +47,7 @@ def count_different(path1, path2):
     return count
 
 if __name__ == '__main__':
-    experiment.studiability_result(1,50)
+    experiment.abalation_no_enhancement_experiment(1,100)
     
     #tester.test_system3()
     # question = "The greatest common divisor of positive integers m and n is 6. The least common multiple of m and n is 126. What is the least possible value of m + n?"

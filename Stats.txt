@@ -1,6 +1,6 @@
 Repick happened: 34 Times
 GPT3.5 turbo 100 question price: 0.18 USD
-
+start run 6:35
 
 Repick happend: 6 Times
 start running GPT4 40
