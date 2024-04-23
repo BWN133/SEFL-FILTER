@@ -103,6 +103,62 @@ def studiability_result(start:int, end:int):
             amount_ran += 1
     output[0]["correct"] = correct
     output.append({"Amount Ran": amount_ran})
-    util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result"+str(start) + "_" + str(end) + ".jsonl", output)
-    util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total"+str(start) + "_" + str(end) + ".jsonl", total_output)
+    util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_3_"+str(start) + "_" + str(end) + ".jsonl", output)
+    util.store_category("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_3_"+str(start) + "_" + str(end) + ".jsonl", total_output)
     
+
+
+def count_variation(path):
+    data = util.dataset.read_jsonl(path, MAXINT)
+    current_total = 0
+    total_data = 0
+    for d in data:
+        curset = set()
+        # print(d)
+        if 'System_Answer' not in d.keys():
+            continue
+        for system_step in d['System_Answer']:
+            if system_step['Step'] != 'First_Solve':
+                continue
+            curset.add(system_step['answer'])
+        print(len(curset))
+        current_total += len(curset)
+        total_data += 1
+    return current_total / total_data
+
+        
+def correct_solution_generate_rate(path):
+    data = util.dataset.read_jsonl(path, MAXINT)
+    current_total = 0
+    total_data = 0
+    for d in data:
+        curset = set()
+        if 'System_Answer' not in d.keys():
+            continue
+        for system_step in d['System_Answer']:
+            curset.add(system_step['answer'])
+        if dataset.extract_answer(d['answer']) in curset:
+            current_total += 1
+        total_data += 1
+    return current_total/ total_data
+
+
+def correctly_pick_generate_rate(path):
+    data = util.dataset.read_jsonl(path, MAXINT)
+    current_total = 0
+    total_data = 0
+    for d in data:
+        curset = set()
+        final_result = ""
+        if 'System_Answer' not in d.keys():
+            continue
+        for system_step in d['System_Answer']:
+            curset.add(system_step['answer'])
+            if system_step['Step'] == 'pickCorrect':
+                final_result = system_step['answer']
+        if len(curset) > 1:
+            total_data += 1
+            if dataset.extract_answer(d['answer']) == final_result:
+                current_total += 1
+        
+    return current_total/ total_data

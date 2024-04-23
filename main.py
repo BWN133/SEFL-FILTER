@@ -46,11 +46,43 @@ def count_different(path1, path2):
             count += 1
     return count
 
+def print_correct_solution_generate_rate():
+    main_rate = experiment.correct_solution_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total1_100.jsonl")
+    varience_main_2 = experiment.correct_solution_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_2_1_100.jsonl")
+    varience_no_random = experiment.correct_solution_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_random_1_100.jsonl")
+    varience_no_enhancement = experiment.correct_solution_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_enhancement_6c_1_100.jsonl")
+    print("SELF-FILTER average num of candidates: " + str(main_rate))
+    print("SELF-FILTER 2 average num of candidates: " + str(varience_main_2))
+    print("No Random average num of candidates: " + str(varience_no_random))
+    print("No enhancement average num of candidates: " + str(varience_no_enhancement))
+
+def print_average_num_candidate():
+    varience_main = experiment.count_variation("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total1_100.jsonl")
+    varience_main_2 = experiment.count_variation("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_2_1_100.jsonl")
+    varience_no_random = experiment.count_variation("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_random_1_100.jsonl")
+    varience_no_enhancement = experiment.count_variation("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_enhancement_6c_1_100.jsonl")
+    print("SELF-FILTER average num of candidates: " + str(varience_main))
+    print("SELF-FILTER average num of candidates: " + str(varience_main_2))
+    print("No Random average num of candidates: " + str(varience_no_random))
+    print("No enhancement average num of candidates: " + str(varience_no_enhancement))
+
+def print_correctlyPickRate():
+    varience_main = experiment.correctly_pick_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total1_100.jsonl")
+    varience_main_2 = experiment.correctly_pick_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_2_1_100.jsonl")
+    varience_no_random = experiment.correctly_pick_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_random_1_100.jsonl")
+    varience_no_enhancement = experiment.correctly_pick_generate_rate("Results\STUDIABILITY_PIPE_METHOD\Studiability_Result_Total_no_enhancement_6c_1_100.jsonl")
+    print("SELF-FILTER average num of candidates: " + str(varience_main))
+    print("SELF-FILTER average num of candidates: " + str(varience_main_2))
+    print("No Random average num of candidates: " + str(varience_no_random))
+    print("No enhancement average num of candidates: " + str(varience_no_enhancement))
 if __name__ == '__main__':
-    experiment.abalation_no_enhancement_experiment(1,100)
-    
+    # print_correct_solution_generate_rate()
+    print_correctlyPickRate()
+    # experiment.abalation_no_enhancement_experiment(1,100)
+    # experiment.studiability_result(1,100)
+    # print_average_num_candidate()
     #tester.test_system3()
-    # question = "The greatest common divisor of positive integers m and n is 6. The least common multiple of m and n is 126. What is the least possible value of m + n?"
+    # question = "Tony can run a mile twice as fast as Tina, who with a time of 6 minutes is one-third as fast a runner as Tom.  What are all three of their mile times when added together?"
     # pipe.main_pipe(question=question)
     
     
