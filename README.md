@@ -18,10 +18,9 @@ The filtering stage introduces the Pick Correct Agent (PCA), a specialized agent
 
 ## Project Structure
 
-- `src/`: Source files for the SELF-FILTER architecture.
-- `data/`: Directory for storing Few-shot prompts and other data inputs.
-- `scripts/`: Utility scripts for setting up and running the agents.
-- `results/`: Output directory for generated solutions and final results.
+- `Results/`: All experimental results.
+- `milestone assignments/`: All reports for COMS 6156 Advanced Topic in Software Engineering @Columbia University.
+- `Stats.txt`: Some stats I collected.
 
 ## Installation
 
