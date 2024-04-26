@@ -16,7 +16,7 @@ In this stage, `n` agents are tasked with solving a proposed MWP. Each agent is 
 
 The filtering stage introduces the Pick Correct Agent (PCA), a specialized agent that compares two candidate solutions at a time, selecting the more likely correct answer. This binary comparison helps maintain high accuracy in solution selection. Solutions with repetitive answers are excluded, and unique candidate solutions undergo PCA in an "Arena Match" setup, where the winning solution from each match proceeds to the next round. This process continues until only one solution remains, which is deemed the final correct answer.
 
-## Project Structure
+## Artifacts
 
 - `Results/`: All experimental results.
 - `milestone assignments/`: All reports for COMS 6156 Advanced Topic in Software Engineering @Columbia University.
