@@ -31,15 +31,17 @@ The filtering stage introduces the Pick Correct Agent (PCA), a specialized agent
 2. Navigate to the project directory:
    ```bash
    cd self-filter
+   ```
 3. Install required packages:
    ```bash
    pip install -r requirements.txt
+   ```
 ## Usage
 
 To run the package, input the target question in main.py and
 ```bash
 python main.py
-
+```
 
 # References
 Cobbe, K., Kosaraju, V., Klimov, O., Schulman, J., Hilton,
