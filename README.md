@@ -47,3 +47,7 @@ python main.py
 Cobbe, K., Kosaraju, V., Klimov, O., Schulman, J., Hilton,
 J., & Hausknecht, M. (2021). Training verifiers to solve
 math word problems. arXiv preprint arXiv:2110.14168
+
+# Acknowledgments
+Thanks to LangChain for providing the tools necessary to orchestrate this complex solution generation and filtering system.
+Special thanks to all contributors who have invested their time in improving the SELF-FILTER architecture.
