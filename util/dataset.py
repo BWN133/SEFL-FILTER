@@ -4,6 +4,17 @@ import re
 import torch as th
 from config import *
 
+import json
+import random
+
+
+def read_random_jsonl_lines(path: str, count: int):
+    with open(path) as fh:
+        lines = fh.readlines()
+        sample_size = min(count, len(lines))
+        random_lines = random.sample(lines, sample_size)
+        result = [json.loads(line) for line in random_lines]
+    return result
 
 def read_jsonl(path: str, count: int):
     with open(path) as fh:
@@ -17,6 +28,13 @@ def read_jsonl(path: str, count: int):
         return result
         # return [json.loads(line) for line in fh.readlines() if line]
 
+
+def get_random_examples(path, count=MAXINT):
+    examples = read_random_jsonl_lines(path, count)
+    for ex in examples:
+        ex.update(question=ex["question"] + "\n")
+        ex.update(answer=ex["answer"] + "<|endoftext|>")
+    return examples
 
 
 def get_examples(path, count=MAXINT):
@@ -49,7 +67,24 @@ def is_correct(model_completion, gt_example):
     assert gt_answer != INVALID_ANS
     return extract_answer(model_completion) == gt_answer
 
-
+def enhance_example(example:list):
+    for e in example:
+        e['result'] = extract_answer(e['answer'])
+    
+def build_fewshot_example(examples:list):
+    result = []
+    for e in examples:
+        cur_result = "For the content below, all content inside **** **** are what system provided you. The AI output content are those in #### ####"
+        cur_result = "****Input Question: "
+        cur_result += e['question'] + "****"
+        cur_result += "\n\n\n\n output: ####"
+        output_dict = {}
+        output_dict["answer"] = e["answer"]
+        output_dict["result"] = extract_answer(e['answer'])
+        cur_result += str(output_dict) + "####"
+        result.append(cur_result)
+    return result
+        
 class GSMDataset(th.utils.data.Dataset):
     def __init__(self, tokenizer, examples, loss_on_prefix=True):
         self.examples = examples

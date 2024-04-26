@@ -2,8 +2,8 @@ from config import *
 import os
 from util import dataset, util
 from chain.chain import *
-from experiment.experiment_main import *
-from experiment.chain_experiment import *
+from experiment.Midterm_Experiments.experiment_main import *
+from experiment.Midterm_Experiments.chain_experiment import *
 def augmentPromptExperiment():
     # storeGSM8KData("train", "train_opc")
     path = os.path.join(GSM8KCATDATA,"train_opc.jsonl")
@@ -29,7 +29,7 @@ def augmentExperimentOnDataset():
     target_questions = dataset.get_examples(question_path, TESTINGAMOUNT)
     
     correct, model_completion, incorrectAnswer = run_experiment(curChain,target_questions,bank)
-    util.store_result(BASEOPCATEXP_TESTSET, correct, incorrectAnswer, RESULTAUGOGPATH + "BaseModel_test_aug_exp1_500.jsonl")
+    util.store_result(BASEOPCATEXP_TESTSET, correct, incorrectAnswer, RESULTAUGOGPATH + "BaseModel_test_aug_exp2_500.jsonl")
     # correct_noAug, model_completion_noAug, incorrectAnswer_noAug = run_experiment(no_aug_chain,target_questions)
     # util.store_result(BASEOPCATEXP_TESTSET + "no Augment", correct_noAug, incorrectAnswer_noAug, RESULTAUGOGPATH + "BaseModel_ChainOfThought_exp1_500.jsonl")
     

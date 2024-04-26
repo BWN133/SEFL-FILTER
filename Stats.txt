@@ -1,0 +1,46 @@
+Repick happened: 34 Times
+GPT3.5 turbo 100 question price: 0.18 USD
+start run 6:35
+
+
+
+Repick happend: 6 Times
+start running GPT4 40
+Price 1.81 time 3:45
+8.66 $ after 40 question and 4:24 take more than half an hour to run
+Price $17.125 -> 100 Question -> 95.14 times more expensive than GPT-3.5-turbo
+
+
+
+
+
+Correct solution generate rate:
+SELF-FILTER average num of candidates: 0.94
+SELF-FILTER 2 average num of candidates: 0.93
+SELF-FILTER 3 average num of candidates: 0.94
+No Random average num of candidates: 0.93
+No Random average num of candidates: 0.95
+No Random average num of candidates: 0.93
+No enhancement average num of candidates: 0.92
+No enhancement average num of candidates: 0.92
+No enhancement average num of candidates: 0.95
+Average Unique Solutions Generated
+SELF-FILTER average num of candidates: 1.39
+SELF-FILTER 2 average num of candidates: 1.4
+SELF-FILTER 3 average num of candidates: 1.36
+No Random average num of candidates: 1.41
+No Random average num of candidates: 1.36
+No Random average num of candidates: 1.42
+No enhancement average num of candidates: 1.43
+No enhancement average num of candidates: 1.36
+No enhancement average num of candidates: 1.39
+PCA Accuracy
+SELF-FILTER average num of candidates: 0.5714285714285714
+SELF-FILTER 2 average num of candidates: 0.4722222222222222
+SELF-FILTER 3 average num of candidates: 0.6
+No Random average num of candidates: 0.5945945945945946
+No Random average num of candidates: 0.5
+No Random average num of candidates: 0.5
+No enhancement average num of candidates: 0.45714285714285713
+No enhancement average num of candidates: 0.35714285714285715
+No enhancement average num of candidates: 0.5
