@@ -37,7 +37,8 @@ The filtering stage introduces the Pick Correct Agent (PCA), a specialized agent
    ```
 ## Usage
 
-To run the package, input the target question in main.py and
+To run the package, input the target question in main.py.
+There is a string variable named "question" in the main, modify it to the question you are interested in. 
 ```bash
 python main.py
 ```
