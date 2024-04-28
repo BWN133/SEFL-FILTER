@@ -175,12 +175,12 @@ if __name__ == '__main__':
 
 
 
-    store_major_correct_pick_correct_wrong()
+    # store_major_correct_pick_correct_wrong()
     # experiment.studiability_result(1,100)
     # experiment.abalation_no_random_experiment(1,100)
     # print_correctlyPickRate()
     #tester.test_system3()
-    # question = "Tony can run a mile twice as fast as Tina, who with a time of 6 minutes is one-third as fast a runner as Tom.  What are all three of their mile times when added together?"
-    # pipe.main_pipe(question=question)
+    question = "Tony can run a mile twice as fast as Tina, who with a time of 6 minutes is one-third as fast a runner as Tom.  What are all three of their mile times when added together?"
+    pipe.main_pipe(question=question)
     
     
